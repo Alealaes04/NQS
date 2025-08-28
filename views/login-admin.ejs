@@ -1,0 +1,21 @@
+<%- include('partials/header.ejs') %>
+
+<section class="login-container">
+  <h2>Acceso de Administrador</h2>
+  <p>Por favor, ingrese la contraseña para acceder al panel de administración.</p>
+
+  <form id="loginForm" action="/admin/login" method="POST">
+    <div class="form-group">
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    
+    <% if (error) { %>
+      <p class="error-message" style="color: red;"><%= error %></p>
+    <% } %>
+
+    <button type="submit">Acceder</button>
+  </form>
+</section>
+
+<%- include('partials/footer.ejs') %>

@@ -57,6 +57,17 @@ p {
     border-radius: 50%;
 }
 
+/* El botón de hamburguesa se oculta por defecto en PC y se muestra en móviles */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--light-color);
+    cursor: pointer;
+}
+
+/* La navegación se muestra por defecto en PC (desktop first) */
 .nav-links {
     list-style: none;
     margin: 0;
@@ -116,7 +127,6 @@ p {
     margin: 0 auto;
     text-align: center;
 }
-
 
 .cta-button {
     display: inline-block;
@@ -360,33 +370,52 @@ section {
 /* Responsive Design */
 @media (max-width: 768px) {
 
-    /* Header y Navbar */
-    .navbar {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .nav-links {
-        margin-top: 1rem;
-        gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .logo img {
-        height: 50px;
+    /* Muestra el botón de hamburguesa en móviles */
+    .menu-toggle {
+        display: block;
     }
 
-    /* Sección Hero */
+    /* Oculta la navegación en móviles para ser controlada por JavaScript */
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--dark-color);
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.3s ease-in-out;
+        z-index: 999;
+    }
+
+    /* Muestra el menú cuando tiene la clase 'active' */
+    .nav-links.active {
+        display: flex;
+        transform: translateY(0);
+    }
+    
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-links li a {
+        display: block;
+        padding: 1rem 0;
+    }
+
+    .nav-links .cta-button {
+        display: block;
+    }
+    
     #hero h2 {
         font-size: 2.5rem;
     }
-
-    /* Secciones de Contenido */
     section {
         padding: 2rem 0;
     }
-
-    /* Lista de Servicios */
     .service-list {
         flex-direction: column;
         align-items: center;
@@ -397,22 +426,16 @@ section {
         width: 100%;
         margin: 0 auto;
     }
-
-    /* Tabla de Administrador */
     .admin-panel-container {
         overflow-x: auto;
     }
     .messages-table {
         min-width: 600px;
     }
-    
-    /* Footer */
     .footer-content-simple {
         flex-direction: column;
         text-align: center;
     }
-
-    /* Service Card Full (para la página de servicios) */
     .service-details {
         padding: 2rem 0;
     }

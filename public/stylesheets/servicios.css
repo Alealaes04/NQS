@@ -1,0 +1,75 @@
+/* Estilos para la página de servicios */
+.services-intro {
+    background-color: var(--secondary-color);
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.services-intro h2 {
+    color: var(--dark-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.services-intro p {
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--dark-color);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.service-details {
+    padding: 4rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.service-card-full {
+    background-color: var(--light-color);
+    padding: 3rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.service-card-full:hover {
+    transform: translateY(-10px);
+}
+
+.service-card-full h3 {
+    text-align: left;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.service-card-full p {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.service-card-full ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.service-card-full li {
+    background-color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: var(--dark-color);
+}
+
+/* Responsive Design para la página de servicios */
+@media (max-width: 768px) {
+    .service-details {
+        padding: 2rem 0;
+    }
+    
+    .service-card-full {
+        padding: 2rem;
+    }
+}

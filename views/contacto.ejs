@@ -1,84 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Nexus Quantum Solutions</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/contacto.css">
+    <link rel="icon" type="image/png" href="/images/Logo%20Nexus%20Horizon%20sin%20fondo.png">
+</head>
+<body>
+
 <%- include('partials/header.ejs') %>
 
 <section class="contact-form-container">
-  <h2>¡Contáctanos!</h2>
-  <p>¿Tienes un proyecto en mente? ¡Cuéntanos! Estamos listos para ayudarte a transformar tus ideas en realidad digital.</p>
-  
-  <form id="contactForm" action="/enviar-contacto" method="POST">
-    <div class="form-group">
-      <label for="name">Nombre:</label>
-      <input type="text" id="name" name="name" required>
-    </div>
+    <h2>¡Contáctanos!</h2>
+    <p>¿Tienes un proyecto en mente? ¡Cuéntanos! Estamos listos para ayudarte a transformar tus ideas en realidad digital.</p>
+    
+    <form id="contactForm" action="/enviar-contacto" method="POST">
+        <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
 
-    <div class="form-group">
-      <label for="email">Correo electrónico:</label>
-      <input type="email" id="email" name="email" required>
-    </div>
+        <div class="form-group">
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
 
-    <div class="form-group">
-      <label for="projectType">Tipo de proyecto:</label>
-      <select id="projectType" name="projectType" required>
-        <option value="">Selecciona una opción</option>
-        <option value="paginaWeb">Página Web a la Medida</option>
-        <option value="eCommerce">E-commerce</option>
-        <option value="softwareGestion">Software de Gestión Empresarial</option>
-        <option value="otro">Otro</option>
-      </select>
-    </div>
+        <div class="form-group">
+            <label for="projectType">Tipo de proyecto:</label>
+            <select id="projectType" name="projectType" required>
+                <option value="">Selecciona una opción</option>
+                <option value="paginaWeb">Página Web a la Medida</option>
+                <option value="eCommerce">E-commerce</option>
+                <option value="softwareGestion">Software de Gestión Empresarial</option>
+                <option value="otro">Otro</option>
+            </select>
+        </div>
 
-    <div class="form-group">
-      <label for="message">Mensaje:</label>
-      <textarea id="message" name="message" rows="5" required></textarea>
-    </div>
+        <div class="form-group">
+            <label for="message">Mensaje:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
 
-    <button type="submit">Enviar Mensaje</button>
-  </form>
+        <button type="submit">Enviar Mensaje</button>
+    </form>
 
-  <div id="statusMessage"></div>
+    <div id="statusMessage"></div>
 </section>
 
 <script>
-  // Obtener el formulario y el contenedor de mensajes
-  const contactForm = document.getElementById('contactForm');
-  const statusMessage = document.getElementById('statusMessage');
+    // Obtener el formulario y el contenedor de mensajes
+    const contactForm = document.getElementById('contactForm');
+    const statusMessage = document.getElementById('statusMessage');
 
-  contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Evita que la página se recargue
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Evita que la página se recargue
 
-    // Limpiar mensajes anteriores
-    statusMessage.textContent = '';
-    statusMessage.style.color = '';
+        // Limpiar mensajes anteriores
+        statusMessage.textContent = '';
+        statusMessage.style.color = '';
 
-    // Obtener los datos del formulario
-    const formData = new FormData(contactForm);
-    const data = Object.fromEntries(formData.entries());
+        // Obtener los datos del formulario
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData.entries());
 
-    try {
-      // Enviar los datos al backend
-      const response = await fetch(contactForm.action, {
-        method: contactForm.method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+        try {
+            // Enviar los datos al backend
+            const response = await fetch(contactForm.action, {
+                method: contactForm.method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
 
-      const result = await response.json();
+            const result = await response.json();
 
-      // Mostrar el mensaje al usuario
-      statusMessage.textContent = result.message;
-      if (result.success) {
-        statusMessage.style.color = 'green';
-        contactForm.reset(); // Limpiar el formulario si el envío fue exitoso
-      } else {
-        statusMessage.style.color = 'red';
-      }
-    } catch (error) {
-      statusMessage.textContent = 'Ocurrió un error de conexión. Inténtalo de nuevo.';
-      statusMessage.style.color = 'red';
-      console.error('Error:', error);
-    }
-  });
+            // Mostrar el mensaje al usuario
+            statusMessage.textContent = result.message;
+            if (result.success) {
+                statusMessage.style.color = 'green';
+                contactForm.reset(); // Limpiar el formulario si el envío fue exitoso
+            } else {
+                statusMessage.style.color = 'red';
+            }
+        } catch (error) {
+            statusMessage.textContent = 'Ocurrió un error de conexión. Inténtalo de nuevo.';
+            statusMessage.style.color = 'red';
+            console.error('Error:', error);
+        }
+    });
 </script>
 
 <%- include('partials/footer.ejs') %>
+</body>
+</html>

@@ -1,37 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Nexus Quantum Solutions</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/admin.css">
+    <link rel="icon" type="image/png" href="/images/Logo%20Nexus%20Horizon%20sin%20fondo.png">
+</head>
+<body>
+
 <%- include('partials/header.ejs') %>
 
 <section class="admin-panel-container">
-  <h2>Panel de Administración de Mensajes</h2>
-  <p>Aquí puedes ver todos los mensajes que han sido enviados a través del formulario de contacto.</p>
+    <h2>Panel de Administración de Mensajes</h2>
+    <p>Aquí puedes ver todos los mensajes que han sido enviados a través del formulario de contacto.</p>
 
-  <table class="messages-table">
-    <thead>
-      <tr>
-        <th>Fecha y Hora</th>
-        <th>Nombre</th>
-        <th>Correo Electrónico</th>
-        <th>Tipo de Proyecto</th>
-        <th>Mensaje</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if (mensajes && mensajes.length > 0) { %>
-        <% mensajes.forEach(mensaje => { %>
-          <tr>
-            <td><%= mensaje.timestamp %></td>
-            <td><%= mensaje.name %></td>
-            <td><%= mensaje.email %></td>
-            <td><%= mensaje.projectType %></td>
-            <td><%= mensaje.message %></td>
-          </tr>
-        <% }); %>
-      <% } else { %>
-        <tr>
-          <td colspan="5">No hay mensajes de contacto registrados.</td>
-        </tr>
-      <% } %>
-    </tbody>
-  </table>
+    <table class="messages-table">
+        <thead>
+            <tr>
+                <th>Fecha y Hora</th>
+                <th>Nombre</th>
+                <th>Correo Electrónico</th>
+                <th>Tipo de Proyecto</th>
+                <th>Mensaje</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (mensajes && mensajes.length > 0) { %>
+                <% mensajes.forEach(mensaje => { %>
+                    <tr>
+                        <td><%= mensaje.timestamp %></td>
+                        <td><%= mensaje.name %></td>
+                        <td><%= mensaje.email %></td>
+                        <td><%= mensaje.projectType %></td>
+                        <td><%= mensaje.message %></td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="5">No hay mensajes de contacto registrados.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
 </section>
 
 <%- include('partials/footer.ejs') %>
+
+</body>
+</html>

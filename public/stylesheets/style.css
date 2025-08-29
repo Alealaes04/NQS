@@ -1,8 +1,363 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/* Importar fuentes de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Estilos globales y variables */
+:root {
+    --primary-color: #3f72af;
+    --secondary-color: #dbe2ef;
+    --dark-color: #112d4e;
+    --light-color: #f9f7f7;
+    --font-family: 'Poppins', sans-serif;
 }
 
-a {
-  color: #00B7FF;
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: var(--dark-color);
+    background-color: var(--light-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h2, h3, h4 {
+    color: var(--dark-color);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+p {
+    text-align: justify;
+}
+
+/* Estilos para el Header */
+.main-header {
+    background-color: var(--dark-color);
+    padding: 1.5rem 0;
+    border-bottom: 3px solid var(--light-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 70px;
+    width: auto;
+    border-radius: 50%;
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--light-color);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+.nav-links .cta-button {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.nav-links .cta-button:hover {
+    background-color: #2b5887;
+}
+
+/* Estilos para la sección Hero de la página de inicio */
+#hero {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+#hero h2 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: var(--light-color);
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    padding: 0.8rem 2rem;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #2b5887;
+}
+
+/* Estilos para las secciones de contenido */
+section {
+    padding: 4rem 0;
+}
+
+#welcome, #services-summary, #portfolio-preview {
+    background-color: var(--secondary-color);
+    margin-bottom: 2rem;
+}
+
+/* Estilos para la lista de servicios */
+.service-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.service-card {
+    background-color: var(--light-color);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 250px;
+    max-width: 350px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+}
+
+.service-card h4 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+/* Estilos para la tabla del panel de admin */
+.admin-panel-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.messages-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.messages-table th, .messages-table td {
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.messages-table thead {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
+
+.messages-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.messages-table td {
+    font-size: 0.9rem;
+}
+
+.messages-table td[colspan="5"] {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+}
+
+/* Estilos para el Footer */
+.main-footer {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.footer-content-simple {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer-bottom p {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+/* Estilos para el botón de admin en el footer */
+.footer-admin a {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+.footer-admin a:hover {
+    background-color: #2b5887;
+}
+
+/* Estilos para los enlaces de páginas */
+.link-to-page {
+    display: block;
+    text-align: center;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 2rem;
+    transition: color 0.3s ease;
+}
+
+.link-to-page:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para la página de servicios */
+.services-intro {
+    background-color: var(--secondary-color);
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.services-intro h2 {
+    color: var(--dark-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.services-intro p {
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--dark-color);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.service-details {
+    padding: 4rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.service-card-full {
+    background-color: var(--light-color);
+    padding: 3rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.service-card-full:hover {
+    transform: translateY(-10px);
+}
+
+.service-card-full h3 {
+    text-align: left;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.service-card-full p {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.service-card-full ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.service-card-full li {
+    background-color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: var(--dark-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #hero h2 {
+        font-size: 2.5rem;
+    }
+
+    .service-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        margin-top: 1rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-section h4 {
+        text-align: center;
+    }
+
+    .service-details {
+        padding: 2rem 0;
+    }
+    
+    .service-card-full {
+        padding: 2rem;
+    }
 }

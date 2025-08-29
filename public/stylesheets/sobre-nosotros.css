@@ -1,0 +1,83 @@
+/* Estilos para la página Sobre Nosotros */
+
+.about-intro {
+    background-color: var(--secondary-color);
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.about-intro h2 {
+    color: var(--dark-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.about-intro p {
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--dark-color);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.team-section {
+    padding: 4rem 0;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.team-member-card {
+    background-color: var(--light-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.team-member-card:hover {
+    transform: translateY(-10px);
+}
+
+.member-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.member-info h4 {
+    color: var(--dark-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.member-info h5 {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin: 0;
+}
+
+.member-info .area {
+    font-weight: 600;
+    font-style: italic;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.member-info .description {
+    text-align: center;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+}

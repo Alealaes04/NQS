@@ -1,0 +1,78 @@
+/* Estilos para la página de contacto */
+.contact-form-container {
+    padding: 4rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.contact-form-container h2 {
+    font-size: 2.5rem;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+}
+
+.contact-form-container p {
+    font-size: 1.1rem;
+    color: var(--dark-color);
+    margin-bottom: 2rem;
+}
+
+form {
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+button[type="submit"] {
+    display: inline-block;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #2b5887;
+}
+
+#statusMessage {
+    margin-top: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+}

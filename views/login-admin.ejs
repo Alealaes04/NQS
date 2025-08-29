@@ -1,21 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso de Administrador - Nexus Quantum Solutions</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/login-admin.css">
+    <link rel="icon" type="image/png" href="/images/Logo%20Nexus%20Horizon%20sin%20fondo.png">
+</head>
+<body>
+
 <%- include('partials/header.ejs') %>
 
 <section class="login-container">
-  <h2>Acceso de Administrador</h2>
-  <p>Por favor, ingrese la contraseña para acceder al panel de administración.</p>
+    <h2>Acceso de Administrador</h2>
+    <p>Por favor, ingrese la contraseña para acceder al panel de administración.</p>
 
-  <form id="loginForm" action="/admin/login" method="POST">
-    <div class="form-group">
-      <label for="password">Contraseña:</label>
-      <input type="password" id="password" name="password" required>
-    </div>
-    
-    <% if (error) { %>
-      <p class="error-message" style="color: red;"><%= error %></p>
-    <% } %>
+    <form id="loginForm" action="/admin/login" method="POST">
+        <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <% if (error) { %>
+            <p class="error-message" style="color: red;"><%= error %></p>
+        <% } %>
 
-    <button type="submit">Acceder</button>
-  </form>
+        <button type="submit">Acceder</button>
+    </form>
 </section>
 
 <%- include('partials/footer.ejs') %>
+
+</body>
+</html>

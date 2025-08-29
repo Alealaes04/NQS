@@ -46,6 +46,13 @@
     margin-top: 0;
 }
 
+/* Contenedor principal para centrar el contenido */
+.container-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
 /* Responsive Design para la página de Recursos */
 @media (max-width: 768px) {
     .resources-intro, .faqs-list {

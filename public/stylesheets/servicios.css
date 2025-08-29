@@ -1,3 +1,10 @@
+/* Contenedor principal para centrar el contenido */
+.container-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
 /* Estilos para la página de servicios */
 .services-intro {
     background-color: var(--secondary-color);
@@ -21,27 +28,31 @@
 
 .service-details {
     padding: 4rem 0;
+}
+
+.service-details .container-content {
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 3rem; /* Añade espacio entre las tarjetas */
 }
 
 .service-card-full {
     background-color: var(--light-color);
-    padding: 3rem;
+    padding: 2.5rem;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
 .service-card-full:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
 }
 
 .service-card-full h3 {
-    text-align: left;
+    text-align: center;
     color: var(--primary-color);
     margin-bottom: 1rem;
+    font-size: 1.8rem;
 }
 
 .service-card-full p {

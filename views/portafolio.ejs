@@ -13,43 +13,141 @@
 <%- include('partials/header.ejs') %>
 
 <section class="portfolio-intro">
-    <h2>Nuestro Portafolio</h2>
-    <p>En Nexus Quantum Solutions, nos enorgullece mostrar una selección de nuestros trabajos más destacados. Cada proyecto es el resultado de un enfoque colaborativo, donde transformamos las ideas de nuestros clientes en soluciones digitales que generan un impacto real.</p>
+    <div class="container-content">
+        <h2>Nuestro Portafolio</h2>
+        <p>En Nexus Quantum Solutions, nos enorgullece mostrar una selección de nuestros trabajos más destacados. Cada proyecto es el resultado de un enfoque colaborativo, donde transformamos las ideas de nuestros clientes en soluciones digitales que generan un impacto real.</p>
+    </div>
 </section>
 
 <section class="portfolio-grid">
-    <div class="project-card">
-        <img src="/images/imagen1.png" alt="Imagen del Proyecto 1">
-        <div class="project-info">
-            <h3>Nombre del Proyecto 1</h3>
-            <p>Página web corporativa y e-commerce para una tienda de productos orgánicos. Desarrollamos un sitio elegante y funcional, optimizado para móviles y con un sistema de pago seguro.</p>
-            <button class="btn-link" data-project-id="1">Ver Proyecto</button>
+    <div class="container-content">
+        <div class="project-card">
+            <img src="/images/imagen1.png" alt="Imagen del Proyecto 1">
+            <div class="project-info">
+                <h3>Nombre del Proyecto 1</h3>
+                <p>Página web corporativa y e-commerce para una tienda de productos orgánicos. Desarrollamos un sitio elegante y funcional, optimizado para móviles y con un sistema de pago seguro.</p>
+                <button class="btn-link" data-project-id="1">Ver Proyecto</button>
+            </div>
         </div>
-    </div>
 
-    <div class="project-card">
-        <img src="/images/imagen2.png" alt="Imagen del Proyecto 2">
-        <div class="project-info">
-            <h3>Nombre del Proyecto 2</h3>
-            <p>Sistema de gestión empresarial a la medida para una empresa de logística. Esta herramienta permite un seguimiento en tiempo real de inventario, envíos y facturación.</p>
-            <button class="btn-link" data-project-id="2">Ver Proyecto</button>
+        <div class="project-card">
+            <img src="/images/imagen2.png" alt="Imagen del Proyecto 2">
+            <div class="project-info">
+                <h3>Nombre del Proyecto 2</h3>
+                <p>Sistema de gestión empresarial a la medida para una empresa de logística. Esta herramienta permite un seguimiento en tiempo real de inventario, envíos y facturación.</p>
+                <button class="btn-link" data-project-id="2">Ver Proyecto</button>
+            </div>
         </div>
-    </div>
 
-    <div class="project-card">
-        <img src="/images/imagen3.png" alt="Imagen del Proyecto 3">
-        <div class="project-info">
-            <h3>Nombre del Proyecto 3</h3>
-            <p>Diseño y desarrollo de un blog especializado en viajes. Implementamos un sistema de gestión de contenido intuitivo para que el cliente pueda publicar nuevas entradas fácilmente.</p>
-            <button class="btn-link" data-project-id="3">Ver Proyecto</button>
+        <div class="project-card">
+            <img src="/images/imagen3.png" alt="Imagen del Proyecto 3">
+            <div class="project-info">
+                <h3>Nombre del Proyecto 3</h3>
+                <p>Diseño y desarrollo de un blog especializado en viajes. Implementamos un sistema de gestión de contenido intuitivo para que el cliente pueda publicar nuevas entradas fácilmente.</p>
+                <button class="btn-link" data-project-id="3">Ver Proyecto</button>
+            </div>
         </div>
     </div>
 </section>
 
-<div id="gallery-modal" style="display: none;">
+<div id="gallery-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div class="modal-gallery">
+        </div>
+        <div class="modal-text">
+            <h3 id="modal-project-title"></h3>
+            <p id="modal-project-description"></p>
+            <div id="modal-project-tech">
+            </div>
+            <a id="modal-project-link" href="#" target="_blank" class="cta-button">Ver Proyecto en Vivo</a>
+        </div>
+    </div>
 </div>
 
 <%- include('partials/footer.ejs') %>
+
+<script>
+    // Simula una base de datos de proyectos
+    const projectsData = {
+        1: {
+            title: "Página Web para Tienda Orgánica",
+            description: "Diseñamos y desarrollamos un sitio web corporativo y una tienda en línea elegante y funcional. El proyecto incluyó la creación de una experiencia de usuario fluida, optimización para todos los dispositivos y la integración de un sistema de pago seguro para los productos.",
+            images: ["/images/imagen1.png"],
+            tech: ["HTML5", "CSS3", "JavaScript", "Node.js", "Express", "MongoDB"],
+            link: "#"
+        },
+        2: {
+            title: "Sistema de Gestión de Logística",
+            description: "Creamos un software de gestión empresarial a la medida para una empresa de logística, permitiéndoles automatizar procesos clave. El sistema incluye seguimiento de inventario en tiempo real, gestión de envíos y un módulo de facturación automatizado para aumentar la eficiencia.",
+            images: ["/images/imagen2.png"],
+            tech: ["React", "Node.js", "Express", "PostgreSQL"],
+            link: "#"
+        },
+        3: {
+            title: "Blog de Viajes Interactivo",
+            description: "Desarrollamos un blog especializado en viajes, con un diseño moderno y un sistema de gestión de contenido intuitivo que permite al cliente publicar nuevas entradas con facilidad. El sitio está optimizado para la velocidad y el SEO, asegurando que su contenido llegue a una audiencia más amplia.",
+            images: ["/images/imagen3.png"],
+            tech: ["HTML5", "CSS3", "JavaScript", "WordPress"],
+            link: "#"
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('gallery-modal');
+        const closeBtn = document.querySelector('.close-btn');
+
+        document.querySelectorAll('.btn-link').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const projectId = e.target.dataset.projectId;
+                const project = projectsData[projectId];
+
+                if (project) {
+                    document.getElementById('modal-project-title').textContent = project.title;
+                    document.getElementById('modal-project-description').textContent = project.description;
+
+                    const gallery = document.querySelector('.modal-gallery');
+                    gallery.innerHTML = '';
+                    project.images.forEach(imageSrc => {
+                        const img = document.createElement('img');
+                        img.src = imageSrc;
+                        gallery.appendChild(img);
+                    });
+
+                    const techContainer = document.getElementById('modal-project-tech');
+                    techContainer.innerHTML = '';
+                    project.tech.forEach(techName => {
+                        const span = document.createElement('span');
+                        span.textContent = techName;
+                        span.classList.add('tech-tag');
+                        techContainer.appendChild(span);
+                    });
+
+                    const projectLink = document.getElementById('modal-project-link');
+                    if (project.link && project.link !== '#') {
+                        projectLink.href = project.link;
+                        projectLink.style.display = 'inline-block';
+                    } else {
+                        projectLink.style.display = 'none';
+                    }
+
+                    modal.style.display = 'flex';
+                }
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

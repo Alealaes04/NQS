@@ -1,4 +1,11 @@
-/* Estilos para la página del portafolio */
+/* Contenedor principal para centrar el contenido */
+.container-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Estilos para la sección de introducción */
 .portfolio-intro {
     background-color: var(--secondary-color);
     padding: 4rem 0;
@@ -19,13 +26,18 @@
     line-height: 1.8;
 }
 
+/* Estilos para la cuadrícula del portafolio */
 .portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
     padding: 4rem 0;
 }
 
+.portfolio-grid .container-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Estilos de las tarjetas de proyecto */
 .project-card {
     background-color: var(--light-color);
     border-radius: 10px;
@@ -34,7 +46,8 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .project-card:hover {
@@ -53,12 +66,13 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    text-align: center;
 }
 
 .project-info h3 {
-    text-align: left;
     color: var(--primary-color);
     margin-top: 0;
+    font-size: 1.5rem;
 }
 
 .project-info p {
@@ -66,7 +80,7 @@
     margin-bottom: 1.5rem;
 }
 
-.btn-link {
+.project-info .btn-link {
     display: inline-block;
     background-color: var(--primary-color);
     color: var(--light-color);
@@ -77,52 +91,144 @@
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    align-self: center;
 }
 
-.btn-link:hover {
+.project-info .btn-link:hover {
     background-color: #2b5887;
 }
 
-/* Estilos para el modal */
-#gallery-modal {
+/* ESTILOS DEL MODAL */
+
+.modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    overflow-y: auto;
 }
 
 .modal-content {
     background-color: var(--light-color);
     padding: 2rem;
     border-radius: 10px;
-    position: relative;
     max-width: 90%;
-    max-height: 90%;
+    width: 800px;
+    max-height: 90vh;
     overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-.modal-close {
+.close-btn {
     position: absolute;
     top: 10px;
     right: 20px;
     font-size: 2rem;
     color: var(--dark-color);
     cursor: pointer;
+    transition: transform 0.2s ease-in-out;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .portfolio-grid {
-        padding: 2rem 0;
-    }
+.close-btn:hover {
+    transform: rotate(90deg);
+}
 
-    .project-card {
-        margin-bottom: 1.5rem;
+.modal-gallery {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 250px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.modal-gallery img {
+    max-width: 100%;
+    max-height: 350px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 10px;
+}
+
+.modal-text {
+    flex: 1;
+    padding-right: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modal-text .tech-tag {
+    background-color: var(--secondary-color);
+    color: var(--dark-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    margin-right: 0.4rem;
+    margin-bottom: 0.4rem;
+    display: inline-block;
+}
+
+.modal-text h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    color: var(--primary-color);
+}
+
+.modal-text p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--dark-color);
+    margin-bottom: 1.5rem;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 768px) {
+    .modal-content {
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+    .modal-text {
+        padding: 0;
+    }
+    .modal-gallery {
+        min-height: 200px;
+    }
+    .modal-gallery img {
+        max-height: 250px;
     }
 }

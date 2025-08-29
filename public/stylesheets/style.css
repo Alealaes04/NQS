@@ -32,7 +32,7 @@ h2, h3, h4 {
 }
 
 p {
-    text-align: justify;
+    text-align: center;
 }
 
 /* Estilos para el Header */
@@ -109,6 +109,15 @@ p {
     color: var(--light-color);
 }
 
+#hero p { 
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
 .cta-button {
     display: inline-block;
     background-color: var(--primary-color);
@@ -132,6 +141,14 @@ section {
 #welcome, #services-summary, #portfolio-preview {
     background-color: var(--secondary-color);
     margin-bottom: 2rem;
+}
+
+/* Estilos para el párrafo de bienvenida */
+.welcome-text {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 15px;
 }
 
 /* Estilos para la lista de servicios */
@@ -218,6 +235,24 @@ section {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.social-links a {
+    color: var(--light-color);
+    font-size: 1.8rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+    transform: scale(1.2);
 }
 
 .footer-bottom p {
@@ -324,59 +359,64 @@ section {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    #hero h2 {
-        font-size: 2.5rem;
-    }
 
-    .service-list {
-        flex-direction: column;
-        align-items: center;
-    }
-
+    /* Header y Navbar */
     .navbar {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
     }
-
     .nav-links {
         margin-top: 1rem;
         gap: 1rem;
         flex-wrap: wrap;
+        justify-content: center;
+    }
+    .logo img {
+        height: 50px;
     }
 
-    .footer-content {
+    /* Sección Hero */
+    #hero h2 {
+        font-size: 2.5rem;
+    }
+
+    /* Secciones de Contenido */
+    section {
+        padding: 2rem 0;
+    }
+
+    /* Lista de Servicios */
+    .service-list {
+        flex-direction: column;
+        align-items: center;
+    }
+    .service-card {
+        min-width: unset;
+        max-width: 90%;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    /* Tabla de Administrador */
+    .admin-panel-container {
+        overflow-x: auto;
+    }
+    .messages-table {
+        min-width: 600px;
+    }
+    
+    /* Footer */
+    .footer-content-simple {
         flex-direction: column;
         text-align: center;
     }
 
-    .footer-section h4 {
-        text-align: center;
-    }
-
+    /* Service Card Full (para la página de servicios) */
     .service-details {
         padding: 2rem 0;
     }
-    
     .service-card-full {
         padding: 2rem;
     }
-}
-
-/* Estilos para los botones de redes sociales */
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.social-links a {
-    color: var(--light-color);
-    font-size: 1.8rem;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.social-links a:hover {
-    color: var(--primary-color);
-    transform: scale(1.2);
 }

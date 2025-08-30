@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/agregar-proyecto.css">
+    <link rel="icon" type="image/png" href="/images/Logo%20Nexus%20Horizon%20sin%20fondo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<%- include('partials/header.ejs') %>
+
+<main class="admin-panel-container">
+    <h2><%= title %></h2>
+    <p>Usa este formulario para agregar un nuevo proyecto a tu portafolio.</p>
+
+    <form id="projectForm" enctype="multipart/form-data" class="add-project-form">
+        <div class="form-group">
+            <label for="title">Título del Proyecto:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="shortDescription">Descripción Corta:</label>
+            <input type="text" id="shortDescription" name="shortDescription" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Descripción Completa:</label>
+            <textarea id="description" name="description" rows="5" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="images">Imágenes (máximo 5):</label>
+            <input type="file" id="images" name="images" multiple accept="image/*" required>
+            <small>Selecciona hasta 5 imágenes para el proyecto.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="tech">Tecnologías Utilizadas:</label>
+            <small>Separa las tecnologías con comas (Ej: JavaScript, HTML, CSS)</small>
+            <input type="text" id="tech" name="tech" required>
+        </div>
+
+        <div class="form-group">
+            <label for="link">Enlace al Proyecto (Opcional):</label>
+            <input type="url" id="link" name="link">
+        </div>
+
+        <button type="submit" class="cta-button">
+            Agregar Proyecto
+        </button>
+    </form>
+    
+    <!-- Sección para eliminar proyectos -->
+    <h3>Proyectos Agregados</h3>
+    <ul id="project-list" class="add-project-form project-list">
+        <p>Cargando proyectos...</p>
+    </ul>
+</main>
+
+<!-- Notificación de éxito/error -->
+<div id="notification-popup" class="notification-popup">
+    <div class="notification-content">
+        <h3 id="notification-title"></h3>
+        <p id="notification-message"></p>
+        <a href="/admin/dashboard" class="cta-button">Volver al Panel</a>
+    </div>
+</div>
+
+<!-- Ventana de confirmación de eliminación -->
+<div id="confirm-popup" class="confirm-popup">
+    <div class="confirm-content">
+        <h3>Confirmar Eliminación</h3>
+        <p>¿Estás seguro de que deseas eliminar el proyecto "<span id="project-to-delete-name"></span>"?</p>
+        <div class="confirm-buttons">
+            <button id="confirm-delete-button" class="delete-button">Sí, eliminar</button>
+            <button id="cancel-delete-button" class="cancel-button">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer.ejs') %>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('projectForm');
+        const notificationPopup = document.getElementById('notification-popup');
+        const notificationTitle = document.getElementById('notification-title');
+        const notificationMessage = document.getElementById('notification-message');
+        const submitButton = form.querySelector('.cta-button');
+        const projectList = document.getElementById('project-list');
+
+        const confirmPopup = document.getElementById('confirm-popup');
+        const confirmDeleteButton = document.getElementById('confirm-delete-button');
+        const cancelDeleteButton = document.getElementById('cancel-delete-button');
+        const projectToDeleteName = document.getElementById('project-to-delete-name');
+        let currentProjectId = null;
+
+        // Código para manejar la adición de proyectos
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Agregando...';
+
+            try {
+                // Esta petición POST se dirige a la ruta del servidor que maneja la adición de proyectos.
+                const response = await fetch('/admin/agregar-proyecto', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    notificationTitle.textContent = '¡Éxito!';
+                    notificationMessage.textContent = result.message;
+                    notificationPopup.style.display = 'flex';
+                    form.reset();
+                    updateProjectList();
+                } else {
+                    notificationTitle.textContent = '¡Error!';
+                    notificationMessage.textContent = result.message || 'Ocurrió un error inesperado.';
+                    notificationPopup.style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error al enviar el formulario:', error);
+                notificationTitle.textContent = '¡Error de Conexión!';
+                notificationMessage.textContent = 'No se pudo conectar con el servidor. Por favor, inténtalo de nuevo.';
+                notificationPopup.style.display = 'flex';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Agregar Proyecto';
+            }
+        });
+
+        // Función para actualizar la lista de proyectos
+        async function updateProjectList() {
+            try {
+                projectList.innerHTML = '<p>Cargando proyectos...</p>';
+                // Esta petición GET se dirige a la nueva ruta que lista todos los proyectos.
+                const response = await fetch('/api/proyectos');
+                const projects = await response.json();
+                
+                // Borra el contenido actual de la lista para mostrar la nueva.
+                projectList.innerHTML = '';
+                
+                if (projects.length > 0) {
+                    projects.forEach(project => {
+                        const li = document.createElement('li');
+                        li.textContent = project.title;
+                        
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Eliminar';
+                        deleteButton.classList.add('delete-item-btn');
+                        deleteButton.addEventListener('click', () => {
+                            showConfirmPopup(project.id, project.title);
+                        });
+                        
+                        li.appendChild(deleteButton);
+                        projectList.appendChild(li);
+                    });
+                } else {
+                    const p = document.createElement('p');
+                    p.textContent = 'Aún no se ha agregado ningún proyecto.';
+                    projectList.appendChild(p);
+                }
+            } catch (error) {
+                console.error('Error al cargar la lista de proyectos:', error);
+                projectList.innerHTML = '<p>No se pudieron cargar los proyectos. Inténtalo de nuevo más tarde.</p>';
+            }
+        }
+
+        // Funciones para mostrar y ocultar la ventana de confirmación
+        function showConfirmPopup(id, title) {
+            currentProjectId = id;
+            projectToDeleteName.textContent = title;
+            confirmPopup.style.display = 'flex';
+        }
+
+        function hideConfirmPopup() {
+            confirmPopup.style.display = 'none';
+            currentProjectId = null;
+        }
+
+        // Eventos para los botones de la ventana de confirmación
+        confirmDeleteButton.addEventListener('click', () => {
+            if (currentProjectId) {
+                deleteProject(currentProjectId);
+            }
+        });
+
+        cancelDeleteButton.addEventListener('click', () => {
+            hideConfirmPopup();
+        });
+
+        // Función para enviar la solicitud de eliminación al servidor
+        async function deleteProject(id) {
+            try {
+                hideConfirmPopup(); // Oculta la ventana de confirmación
+                
+                // Esta petición DELETE se dirige a la ruta del servidor que elimina un proyecto por su ID.
+                const response = await fetch(`/api/proyectos/${id}`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    notificationTitle.textContent = '¡Proyecto Eliminado!';
+                    notificationMessage.textContent = result.message;
+                    notificationPopup.style.display = 'flex';
+                    updateProjectList();
+                } else {
+                    notificationTitle.textContent = '¡Error!';
+                    notificationMessage.textContent = result.message || 'Ocurrió un error al eliminar el proyecto.';
+                    notificationPopup.style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error al eliminar el proyecto:', error);
+                notificationTitle.textContent = '¡Error de Conexión!';
+                notificationMessage.textContent = 'No se pudo conectar con el servidor para eliminar el proyecto.';
+                notificationPopup.style.display = 'flex';
+            }
+        }
+
+        // Oculta la notificación de éxito/error al hacer clic fuera del contenido
+        notificationPopup.addEventListener('click', (e) => {
+            if (e.target === notificationPopup) {
+                notificationPopup.style.display = 'none';
+            }
+        });
+
+        // Llama a la función al cargar la página para mostrar la lista inicial de proyectos
+        updateProjectList();
+    });
+</script>
+
+</body>
+</html>

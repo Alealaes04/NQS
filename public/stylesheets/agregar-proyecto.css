@@ -1,0 +1,200 @@
+/* Variables y estilos básicos */
+:root {
+    --primary-color: #3f72af;
+    --secondary-color: #dbe2ef;
+    --light-color: #f9f7f7;
+    --dark-color: #112d4e;
+    --font-family: 'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.admin-panel-container {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 2rem auto;
+    background-color: var(--light-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos del formulario */
+.add-project-form {
+    background-color: var(--secondary-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 0.5rem; /* Espacio reducido entre los grupos de formulario */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--dark-color);
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.5rem 0.75rem; /* Ajuste para reducir la altura */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--dark-color);
+    line-height: 1.2;
+    box-sizing: border-box; /* Asegura que el padding no agregue ancho extra */
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+/* Botones y subidas de imágenes */
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    text-align: center;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.cta-button:hover {
+    background-color: #2b5887;
+    transform: translateY(-2px);
+}
+
+.delete-button {
+    background-color: #dc3545;
+    margin-top: 0.5rem;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+.image-upload-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.image-upload-input {
+    display: none;
+}
+
+.image-upload-label {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.image-upload-label:hover {
+    background-color: #2b5887;
+}
+
+.image-upload-label i {
+    margin-right: 0.5rem;
+}
+
+/* Estilos de la ventana emergente */
+.notification-popup,
+.confirm-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.notification-content,
+.confirm-content {
+    background-color: var(--light-color);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    border: 2px solid var(--primary-color);
+}
+
+.confirm-content p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.confirm-content .confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.cancel-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+    background-color: #5a6268;
+}
+
+.project-list {
+    list-style: none;
+    padding: 0;
+}
+
+.project-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.project-list li:last-child {
+    border-bottom: none;
+}

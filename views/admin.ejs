@@ -13,10 +13,15 @@
 
 <%- include('partials/header.ejs') %>
 
-<section class="admin-panel-container">
-    <h2>Panel de Administración de Mensajes</h2>
-    <p>Aquí puedes ver todos los mensajes que han sido enviados a través del formulario de contacto.</p>
+<main class="admin-panel-container">
+    <h2>Panel de Administración</h2>
+    <p>¡Bienvenido! Aquí puedes gestionar los mensajes recibidos y agregar nuevos proyectos a tu portafolio.</p>
 
+    <a href="/admin/agregar-proyecto" class="cta-button" style="margin: 2rem 0; display: inline-block;">
+        Agregar Proyecto
+    </a>
+
+    <h3>Mensajes de Contacto</h3>
     <table class="messages-table">
         <thead>
             <tr>
@@ -45,7 +50,7 @@
             <% } %>
         </tbody>
     </table>
-</section>
+</main>
 
 <%- include('partials/footer.ejs') %>
 

@@ -23,12 +23,13 @@
 <section class="portfolio-grid">
     <div class="container-content">
         
+        <!-- Tarjetas de proyectos fijos -->
         <div class="project-card">
             <img src="/images/imagen4.jpeg" alt="Imagen del proyecto 1">
             <div class="project-info">
                 <h3>Nexus Horizon</h3>
                 <p>Sistema operacional para la gestión de sistemas de la empresa cliente, con funcionalidades de CMDB y automatización de flujos de trabajo.</p>
-                <button class="btn-link" data-project-id="4">Ver Proyecto</button>
+                <button class="btn-link" data-project-id="static-4">Ver Proyecto</button>
             </div>
         </div>
 
@@ -37,7 +38,7 @@
             <div class="project-info">
                 <h3>EcoMarket</h3>
                 <p>Página web corporativa y e-commerce para una tienda de productos orgánicos. Desarrollamos un sitio elegante y funcional, optimizado para móviles y con un sistema de pago seguro.</p>
-                <button class="btn-link" data-project-id="1">Ver Proyecto</button>
+                <button class="btn-link" data-project-id="static-1">Ver Proyecto</button>
             </div>
         </div>
 
@@ -46,7 +47,7 @@
             <div class="project-info">
                 <h3>NexusLogistics</h3>
                 <p>Sistema de gestión empresarial a la medida para una empresa de logística. Esta herramienta permite un seguimiento en tiempo real de inventario, envíos y facturación.</p>
-                <button class="btn-link" data-project-id="2">Ver Proyecto</button>
+                <button class="btn-link" data-project-id="static-2">Ver Proyecto</button>
             </div>
         </div>
 
@@ -55,9 +56,24 @@
             <div class="project-info">
                 <h3>Viajero Digital</h3>
                 <p>Diseño y desarrollo de un blog especializado en viajes. Implementamos un sistema de gestión de contenido intuitivo para que el cliente pueda publicar nuevas entradas fácilmente.</p>
-                <button class="btn-link" data-project-id="3">Ver Proyecto</button>
+                <button class="btn-link" data-project-id="static-3">Ver Proyecto</button>
             </div>
         </div>
+
+        <!-- Tarjetas de proyectos dinámicos desde la base de datos -->
+        <% if (proyectos && proyectos.length > 0) { %>
+            <% proyectos.forEach(proyecto => { %>
+                <div class="project-card">
+                    <!-- Si la imagen no carga, se mostrará una imagen de marcador de posición -->
+                    <img src="<%= (proyecto.images && proyecto.images.length > 0) ? proyecto.images[0] : 'https://placehold.co/400x300' %>" alt="<%= proyecto.title %>" onerror="this.src='https://placehold.co/400x300';">
+                    <div class="project-info">
+                        <h3><%= proyecto.title %></h3>
+                        <p><%= proyecto.shortDescription %></p>
+                        <button class="btn-link" data-project-id="<%= proyecto.id %>">Ver Proyecto</button>
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>% } %>
     </div>
 </section>
 
@@ -79,30 +95,30 @@
 <%- include('partials/footer.ejs') %>
 
 <script>
-    // Simula una base de datos de proyectos
-    const projectsData = {
-        1: {
+    // Define los datos de los proyectos estáticos
+    const staticProjectsData = {
+        'static-1': {
             title: "Página Web para Tienda Orgánica",
             description: "Diseñamos y desarrollamos un sitio web corporativo y una tienda en línea elegante y funcional. El proyecto incluyó la creación de una experiencia de usuario fluida, optimización para todos los dispositivos y la integración de un sistema de pago seguro para los productos.",
             images: ["/images/imagen1.png"],
             tech: ["HTML5", "CSS3", "JavaScript", "Node.js", "Express", "MongoDB"],
             link: "#"
         },
-        2: {
+        'static-2': {
             title: "Sistema de Gestión de Logística",
             description: "Creamos un software de gestión empresarial a la medida para una empresa de logística, permitiéndoles automatizar procesos clave. El sistema incluye seguimiento de inventario en tiempo real, gestión de envíos y un módulo de facturación automatizado para aumentar la eficiencia.",
             images: ["/images/imagen2.png"],
             tech: ["React", "Node.js", "Express", "PostgreSQL"],
             link: "#"
         },
-        3: {
+        'static-3': {
             title: "Blog de Viajes Interactivo",
             description: "Desarrollamos un blog especializado en viajes, con un diseño moderno y un sistema de gestión de contenido intuitivo que permite al cliente publicar nuevas entradas con facilidad. El sitio está optimizado para la velocidad y el SEO, asegurando que su contenido llegue a una audiencia más amplia.",
             images: ["/images/imagen3.png"],
             tech: ["HTML5", "CSS3", "JavaScript", "WordPress"],
             link: "#"
         },
-        4: {
+        'static-4': {
             title: "Sistema operacional único para la gestión de todos los sistemas",
             description: "Nexus Horizon es un sistema operacional para la gestión de sistemas de la empresa cliente, Caldera SysCore. No es solo un sistema de tickets, sino una plataforma unificada para la gestión operativa, la catalogación de activos (CMDB), la automatización de flujos y la visibilidad en tiempo real a través de un dashboard. Justificado por la reducción del 50% en el tiempo de resolución de incidentes y un 30% de aumento en la satisfacción del equipo.",
             images: ["/images/imagen4.jpeg"],
@@ -117,40 +133,109 @@
 
         document.querySelectorAll('.btn-link').forEach(button => {
             button.addEventListener('click', (e) => {
-                e.preventDefault();
                 const projectId = e.target.dataset.projectId;
-                const project = projectsData[projectId];
+                
+                // Si el ID es estático, usa los datos locales.
+                if (projectId.startsWith('static-')) {
+                    const project = staticProjectsData[projectId];
+                    if (project) {
+                        document.getElementById('modal-project-title').textContent = project.title;
+                        document.getElementById('modal-project-description').textContent = project.description;
 
-                if (project) {
-                    document.getElementById('modal-project-title').textContent = project.title;
-                    document.getElementById('modal-project-description').textContent = project.description;
+                        const gallery = document.querySelector('.modal-gallery');
+                        gallery.innerHTML = '';
+                        project.images.forEach(imageSrc => {
+                            const img = document.createElement('img');
+                            img.src = imageSrc;
+                            gallery.appendChild(img);
+                        });
 
-                    const gallery = document.querySelector('.modal-gallery');
-                    gallery.innerHTML = '';
-                    project.images.forEach(imageSrc => {
-                        const img = document.createElement('img');
-                        img.src = imageSrc;
-                        gallery.appendChild(img);
-                    });
+                        const techContainer = document.getElementById('modal-project-tech');
+                        techContainer.innerHTML = '';
+                        project.tech.forEach(techName => {
+                            const span = document.createElement('span');
+                            span.textContent = techName;
+                            span.classList.add('tech-tag');
+                            techContainer.appendChild(span);
+                        });
 
-                    const techContainer = document.getElementById('modal-project-tech');
-                    techContainer.innerHTML = '';
-                    project.tech.forEach(techName => {
-                        const span = document.createElement('span');
-                        span.textContent = techName;
-                        span.classList.add('tech-tag');
-                        techContainer.appendChild(span);
-                    });
+                        const projectLink = document.getElementById('modal-project-link');
+                        if (project.link && project.link !== '#') {
+                            projectLink.href = project.link;
+                            projectLink.style.display = 'inline-block';
+                        } else {
+                            projectLink.style.display = 'none';
+                        }
 
-                    const projectLink = document.getElementById('modal-project-link');
-                    if (project.link && project.link !== '#') {
-                        projectLink.href = project.link;
-                        projectLink.style.display = 'inline-block';
-                    } else {
-                        projectLink.style.display = 'none';
+                        modal.style.display = 'flex';
                     }
+                } else {
+                    // Si el ID es de un proyecto dinámico, haz una llamada a la API
+                    fetch(`/api/proyectos/${projectId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(project => {
+                            if (project) {
+                                document.getElementById('modal-project-title').textContent = project.title;
+                                document.getElementById('modal-project-description').textContent = project.description;
+                                
+                                // El campo 'images' se almacena como una cadena de texto JSON en la base de datos.
+                                // Debemos parsearlo de nuevo a un array para que el código funcione.
+                                try {
+                                    project.images = JSON.parse(project.images);
+                                } catch (e) {
+                                    console.error('Error al parsear las imágenes del proyecto:', e);
+                                    project.images = []; // En caso de error, inicializa como un array vacío.
+                                }
 
-                    modal.style.display = 'flex';
+                                const gallery = document.querySelector('.modal-gallery');
+                                gallery.innerHTML = '';
+                                if (project.images.length > 0) {
+                                    project.images.forEach(imageSrc => {
+                                        const img = document.createElement('img');
+                                        img.src = imageSrc;
+                                        gallery.appendChild(img);
+                                    });
+                                } else {
+                                    const img = document.createElement('img');
+                                    img.src = "https://placehold.co/400x300/e2e8f0/475569?text=No+Image";
+                                    gallery.appendChild(img);
+                                }
+
+                                const techContainer = document.getElementById('modal-project-tech');
+                                techContainer.innerHTML = '';
+                                if (project.tech) {
+                                    const techArray = project.tech.split(',').map(item => item.trim());
+                                    techArray.forEach(techName => {
+                                        const span = document.createElement('span');
+                                        span.textContent = techName;
+                                        span.classList.add('tech-tag');
+                                        techContainer.appendChild(span);
+                                    });
+                                }
+
+                                const projectLink = document.getElementById('modal-project-link');
+                                if (project.link && project.link !== '#') {
+                                    projectLink.href = project.link;
+                                    projectLink.style.display = 'inline-block';
+                                } else {
+                                    projectLink.style.display = 'none';
+                                }
+
+                                modal.style.display = 'flex';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al obtener los datos del proyecto:', error);
+                            // Opcional: mostrar un mensaje de error en el modal
+                            document.getElementById('modal-project-title').textContent = "Error";
+                            document.getElementById('modal-project-description').textContent = "No se pudieron cargar los datos del proyecto. Por favor, intente de nuevo más tarde.";
+                            modal.style.display = 'flex';
+                        });
                 }
             });
         });

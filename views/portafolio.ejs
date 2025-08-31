@@ -23,7 +23,6 @@
 <section class="portfolio-grid">
     <div class="container-content">
         
-        <!-- Tarjetas de proyectos fijos -->
         <div class="project-card">
             <img src="/images/imagen4.jpeg" alt="Imagen del proyecto 1">
             <div class="project-info">
@@ -60,11 +59,9 @@
             </div>
         </div>
 
-        <!-- Tarjetas de proyectos dinámicos desde la base de datos -->
         <% if (proyectos && proyectos.length > 0) { %>
             <% proyectos.forEach(proyecto => { %>
                 <div class="project-card">
-                    <!-- Si la imagen no carga, se mostrará una imagen de marcador de posición -->
                     <img src="<%= (proyecto.images && proyecto.images.length > 0) ? proyecto.images[0] : 'https://placehold.co/400x300' %>" alt="<%= proyecto.title %>" onerror="this.src='https://placehold.co/400x300';">
                     <div class="project-info">
                         <h3><%= proyecto.title %></h3>
@@ -73,7 +70,7 @@
                     </div>
                 </div>
             <% }); %>
-        <% } %>% } %>
+        <% } %>
     </div>
 </section>
 
@@ -180,21 +177,14 @@
                         })
                         .then(project => {
                             if (project) {
-                                document.getElementById('modal-project-title').textContent = project.title;
-                                document.getElementById('modal-project-description').textContent = project.description;
+                                document.getElementById('modal-project-title').textContent = project.title || 'Título no disponible';
+                                document.getElementById('modal-project-description').textContent = project.description || 'Descripción no disponible';
                                 
-                                // El campo 'images' se almacena como una cadena de texto JSON en la base de datos.
-                                // Debemos parsearlo de nuevo a un array para que el código funcione.
-                                try {
-                                    project.images = JSON.parse(project.images);
-                                } catch (e) {
-                                    console.error('Error al parsear las imágenes del proyecto:', e);
-                                    project.images = []; // En caso de error, inicializa como un array vacío.
-                                }
-
+                                // ELIMINADO: Se ha quitado el try...catch con JSON.parse.
+                                // El servidor ya envía las imágenes como un array.
                                 const gallery = document.querySelector('.modal-gallery');
                                 gallery.innerHTML = '';
-                                if (project.images.length > 0) {
+                                if (project.images && project.images.length > 0) {
                                     project.images.forEach(imageSrc => {
                                         const img = document.createElement('img');
                                         img.src = imageSrc;
@@ -208,7 +198,7 @@
 
                                 const techContainer = document.getElementById('modal-project-tech');
                                 techContainer.innerHTML = '';
-                                if (project.tech) {
+                                if (project.tech && typeof project.tech === 'string') {
                                     const techArray = project.tech.split(',').map(item => item.trim());
                                     techArray.forEach(techName => {
                                         const span = document.createElement('span');
@@ -231,7 +221,6 @@
                         })
                         .catch(error => {
                             console.error('Error al obtener los datos del proyecto:', error);
-                            // Opcional: mostrar un mensaje de error en el modal
                             document.getElementById('modal-project-title').textContent = "Error";
                             document.getElementById('modal-project-description').textContent = "No se pudieron cargar los datos del proyecto. Por favor, intente de nuevo más tarde.";
                             modal.style.display = 'flex';

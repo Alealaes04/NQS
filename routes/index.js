@@ -12,13 +12,11 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadDir = 'public/uploads/';
     try {
-      // Intenta crear el directorio, si ya existe no hace nada
       fs.mkdirSync(uploadDir, { recursive: true });
       cb(null, uploadDir);
     } catch (err) {
       console.error('Error al crear el directorio de subidas:', err);
-      // Pasa el error a Express para que lo maneje.
-      cb(err); 
+      cb(err);
     }
   },
   filename: function (req, file, cb) {
@@ -78,8 +76,7 @@ router.get('/portafolio', function(req, res, next) {
     } else {
       const proyectos = rows.map(row => ({
         ...row,
-        images: JSON.parse(row.images),
-        tech: JSON.parse(row.tech)
+        images: JSON.parse(row.images)
       }));
       res.render('portafolio', { title: 'Portafolio', proyectos: proyectos });
     }
@@ -114,16 +111,26 @@ router.post('/admin/login', function(req, res, next) {
 
 /* GET página del panel de administración. */
 router.get('/admin/dashboard', function(req, res, next) {
-  const sql = `SELECT * FROM mensajes ORDER BY timestamp DESC`;
+  const sqlMensajes = `SELECT * FROM mensajes ORDER BY timestamp DESC`;
+  const sqlProyectos = `SELECT id, title, shortDescription FROM proyectos ORDER BY id DESC`;
 
-  db.all(sql, [], (err, rows) => {
-    if (err) {
-      console.error('Error al obtener los mensajes:', err.message);
+  db.all(sqlMensajes, [], (errMensajes, mensajes) => {
+    if (errMensajes) {
+      console.error('Error al obtener los mensajes:', errMensajes.message);
       return res.status(500).send('Error interno del servidor.');
     }
-    res.render('admin', {
-      title: 'Panel de Administración',
-      mensajes: rows
+
+    db.all(sqlProyectos, [], (errProyectos, proyectos) => {
+      if (errProyectos) {
+        console.error('Error al obtener los proyectos:', errProyectos.message);
+        return res.status(500).send('Error interno del servidor.');
+      }
+
+      res.render('admin', {
+        title: 'Panel de Administración',
+        mensajes: mensajes,
+        proyectos: proyectos
+      });
     });
   });
 });
@@ -137,7 +144,6 @@ router.get('/admin/agregar-proyecto', (req, res) => {
 router.post('/admin/agregar-proyecto', upload.array('images', 5), (req, res) => {
   const { title, shortDescription, description, tech, link } = req.body;
 
-  // Validación de los campos del formulario y los archivos subidos.
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ success: false, message: 'Por favor, sube al menos una imagen para el proyecto.' });
   }
@@ -147,10 +153,10 @@ router.post('/admin/agregar-proyecto', upload.array('images', 5), (req, res) => 
   }
   
   const images = req.files.map(file => `/uploads/${file.filename}`);
-  const techArray = tech.split(',').map(item => item.trim());
+  const techString = tech.split(',').map(item => item.trim()).join(', ');
 
   db.run(`INSERT INTO proyectos (title, shortDescription, description, images, tech, link) VALUES (?, ?, ?, ?, ?, ?)`, 
-    [title, shortDescription, description, JSON.stringify(images), JSON.stringify(techArray), link],
+    [title, shortDescription, description, JSON.stringify(images), techString, link],
     function(err) {
       if (err) {
         console.error('Error al agregar el proyecto a la base de datos:', err.message);
@@ -168,8 +174,7 @@ router.get('/api/proyectos', (req, res) => {
     }
     const projects = rows.map(row => ({
       ...row,
-      images: JSON.parse(row.images),
-      tech: JSON.parse(row.tech)
+      images: JSON.parse(row.images)
     }));
     res.json(projects);
   });
@@ -185,11 +190,12 @@ router.get('/api/proyectos/:id', (req, res) => {
     if (!row) {
       return res.status(404).json({ success: false, message: 'Proyecto no encontrado.' });
     }
+    
     const project = {
       ...row,
-      images: JSON.parse(row.images),
-      tech: JSON.parse(row.tech)
+      images: JSON.parse(row.images)
     };
+
     res.json(project);
   });
 });

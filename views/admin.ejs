@@ -50,9 +50,71 @@
             <% } %>
         </tbody>
     </table>
+    
+    <div class="projects-section">
+      <h3>Proyectos Agregados</h3>
+      <table class="messages-table"> <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descripción Corta</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (proyectos && proyectos.length > 0) { %>
+                <% proyectos.forEach(proyecto => { %>
+                    <tr>
+                        <td><%= proyecto.id %></td>
+                        <td><%= proyecto.title %></td>
+                        <td><%= proyecto.shortDescription %></td>
+                        <td>
+                            <button class="btn-delete" data-id="<%= proyecto.id %>">Eliminar</button>
+                        </td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4">No hay proyectos agregados en el portafolio.</td>
+                </tr>
+            <% } %>
+        </tbody>
+      </table>
+    </div>
 </main>
 
 <%- include('partials/footer.ejs') %>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+        
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const projectId = e.target.dataset.id;
+                
+                if (confirm('¿Estás seguro de que quieres eliminar este proyecto? Esta acción es irreversible.')) {
+                    try {
+                        const response = await fetch(`/api/proyectos/${projectId}`, {
+                            method: 'DELETE'
+                        });
+
+                        const result = await response.json();
+                        if (result.success) {
+                            alert(result.message);
+                            window.location.reload(); 
+                        } else {
+                            alert('Error: ' + result.message);
+                        }
+                    } catch (error) {
+                        console.error('Error al eliminar el proyecto:', error);
+                        alert('Ocurrió un error al eliminar el proyecto. Por favor, intente de nuevo.');
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 <script src="/scripts/main.js" defer></script>
 
